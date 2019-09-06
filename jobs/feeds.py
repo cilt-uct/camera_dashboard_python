@@ -28,9 +28,9 @@ def get_feeds():
 
         command = ("openRTSP -F " + venue["venue_name"] + " -d 10 -b 400000 " + venue["cam_url"]
                    + " && ffmpeg -y -i " + venue["venue_name"] + "video-H264-1 -r 1 -vframes 1"
-                   + " -f image2 " + DIRECTORY + "/static/feeds/" + venue["venue_name"] + "/" + venue["venue_name"]
-                   + "_big.jpeg && ffmpeg -y -i " + DIRECTORY + "/static/feeds/" + venue["venue_name"]
-                   + "/" + venue["venue_name"] + "_big.jpeg -s 320x180 -f image2 " + DIRECTORY + "/static/feeds/"
+                   + " -f image2 " + DIRECTORY + venue["venue_name"] + "/" + venue["venue_name"]
+                   + "_big.jpeg && ffmpeg -y -i " + DIRECTORY + venue["venue_name"]
+                   + "/" + venue["venue_name"] + "_big.jpeg -s 320x180 -f image2 " + DIRECTORY
                    + venue["venue_name"] + "/" + venue["venue_name"] + ".jpeg && rm -f " + venue["venue_name"] + "*")
 
         commands.append(command)
