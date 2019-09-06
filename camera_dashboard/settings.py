@@ -27,7 +27,7 @@ SECRET_KEY = 'xi5$elt_%72gea^++lc%v9%p3h3ghn0v5%an9^119bow29of97'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['camonitor.uct.ac.za']
 
 
 # Application definition
