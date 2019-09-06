@@ -7,4 +7,4 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils && ap
 ADD ./ /camera_dashboard
 WORKDIR /camera_dashboard
 
-EXPOSE 8000
+EXPOSE 3000
