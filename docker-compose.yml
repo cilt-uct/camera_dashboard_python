@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.7
+    environment:
+      - RABBITMQ_MNESIA_BASE=/var/lib/rabbitmq/mnesia
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq/mnesia
+
+  db:
+    image: mongo:4
+    volumes:
+      - ./data/nosql:/data/db
+
+  cam_dash:
+      build: .
+      command: python manage.py runserver 0.0.0.0:8000
+      volumes:
+        - .:/camera_dashboard
+      ports:
+        - "8000:8000"
+      depends_on:
+        - db
+
+  celery:
+      build: .
+      volumes:
+        - .:/camera_dashboard
+      depends_on:
+        - rabbitmq
+        - cam_dash
+      environment:
+        - LOG_STREAM=Celery
+      command: celery -A camera_dashboard worker -B -l INFO
+
+  celery_beat:
+      build: .
+      volumes:
+        - .:/camera_dashboard
+      depends_on:
+        - celery
+      environment:
+        - LOG_STREAM=CeleryBeat
+      command: celery beat -A camera_dashboard -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler

@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import mongoengine
+from celery.schedules import crontab
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '1w^y0-68*p+ha#xlvt&5==g)dt(zq3+i(#0$b!^@2^10g$&o$@'
+SECRET_KEY = 'xi5$elt_%72gea^++lc%v9%p3h3ghn0v5%an9^119bow29of97'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_beat',
+    'jobs',
+    'sync'
 ]
 
 MIDDLEWARE = [
@@ -54,7 +59,7 @@ ROOT_URLCONF = 'camera_dashboard.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['sync/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,17 +73,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'camera_dashboard.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 
 # Password validation
@@ -118,3 +112,31 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'sync/static'),
+]
+
+# Default celery broker
+# http://docs.celeryproject.org/en/latest/getting-started/brokers/rabbitmq.html
+
+CELERY_TIMEZONE = "UTC"
+CELERY_ENABLE_UTC = True
+CELERY_BROKER_URL = "amqp://rabbitmq"
+CELERY_IMPORTS = ['jobs.feeds', 'jobs.sync_agents']
+BROKER_POOL_LIMIT = None
+
+CELERY_BEAT_SCHEDULE = {
+    'feeds_every_five_minutes': {
+        'task': 'jobs.feeds.get_feeds',
+        'schedule': crontab(minute="*/15"),
+    },
+    'sync_once_a_week': {
+        'task': 'jobs.sync_agents.do_sync',
+        'schedule': crontab(minute="*/20"),
+    },
+}
+
+# MongoDB served via Docker container (docker-compose)
+NOSQL_DATABASE = {"ENGINE": "djongo", "HOST": "db", "NAME": "camera_dashboard"}
+DATABASES = {"default": NOSQL_DATABASE}
+mongoengine.connect(NOSQL_DATABASE["NAME"], host=NOSQL_DATABASE["HOST"])

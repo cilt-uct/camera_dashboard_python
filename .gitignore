@@ -1,0 +1,29 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.eslintrc
+.vscode/
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Python files
+__pycache__/
+*.py[cod]
+migrations/
+
+# Backend files
+db.sqlite3
+scheduler/*.state
+feeds
+celerybeat.pid
+config.py
+data

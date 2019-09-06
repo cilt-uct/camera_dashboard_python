@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <div>
+        {% for venue in venues %}
+            <div class="gallery">
+                <a target="_blank" href="feeds/{{venue.venue_name}}/{{venue.venue_name}}_big.jpeg">
+                    <img src="{% static '' %}feeds/{{venue.venue_name}}/{{venue.venue_name}}.jpeg" alt="Capture currently available" onerror="this.onerror=null;this.src='/static/placeholder/unavailable.jpg';">
+                </a>
+                <div class="desc">{{venue.venue_name}}</div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
