@@ -24,7 +24,8 @@ def do_sync():
                 continue
 
             venue_name = agent["name"]
-            last_updated = datetime.now()
+            last_updated = datetime.utcnow()
+            sync_time = datetime.utcnow()
             items = agent["capabilities"]["item"]
             cam_url = get_camera_url(items)
 
@@ -36,13 +37,13 @@ def do_sync():
                     os.makedirs(folder_path, exist_ok=True)
 
                 if os.path.isfile(file_path):
-                    last_updated = os.path.getmtime(file_path)
+                    last_updated = datetime.fromtimestamp(os.path.getmtime(file_path))
 
             Venues.objects.create(
                 venue_name=venue_name,
                 cam_url=cam_url,
                 last_updated=last_updated,
-                sync_time=datetime.now
+                sync_time=sync_time,
             )
 
 

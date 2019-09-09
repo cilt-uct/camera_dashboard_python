@@ -128,11 +128,11 @@ BROKER_POOL_LIMIT = None
 CELERY_BEAT_SCHEDULE = {
     'feeds_every_five_minutes': {
         'task': 'jobs.feeds.get_feeds',
-        'schedule': crontab(minute="*/15"),
+        'schedule': crontab(minute="*/11"),
     },
     'sync_once_a_week': {
         'task': 'jobs.sync_agents.do_sync',
-        'schedule': crontab(minute="*/20"),
+        'schedule': crontab(minute="*/15"),
     },
 }
 
