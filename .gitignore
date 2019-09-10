@@ -25,5 +25,4 @@ db.sqlite3
 scheduler/*.state
 feeds
 celerybeat.pid
-config.py
 data
