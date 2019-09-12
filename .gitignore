@@ -26,4 +26,6 @@ scheduler/*.state
 feeds
 celerybeat.pid
 celery-schedule
+config.py
 data
+js

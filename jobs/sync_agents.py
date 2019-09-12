@@ -4,6 +4,9 @@ from requests.auth import HTTPDigestAuth
 from celery import shared_task
 from datetime import datetime
 from .models import Venues
+from celery.utils.log import get_task_logger
+
+logger = get_task_logger(__name__)
 
 
 @shared_task
@@ -15,6 +18,7 @@ def do_sync():
     response = requests.get(url, auth=auth, headers=params)
     data = json.loads(response.text)
     agents = data["agents"]["agent"]
+    logger.info("Number of agents {}.".format(len(agents)))
 
     if agents:
         delete_venues()
@@ -34,24 +38,33 @@ def do_sync():
                 file_path = folder_path + venue_name+".jpeg"
 
                 if not os.path.isdir(folder_path):
+                    logger.info("Creating folder: {}.".format(folder_path))
                     os.makedirs(folder_path, exist_ok=True)
 
                 if os.path.isfile(file_path):
+                    logger.info("Updating timestamp for: {}.".format(file_path))
                     last_updated = datetime.fromtimestamp(os.path.getmtime(file_path))
+
+            regularly_updating = regularly_updating_check(last_updated)
 
             Venues.objects.create(
                 venue_name=venue_name,
                 cam_url=cam_url,
                 last_updated=last_updated,
                 sync_time=sync_time,
+                regularly_updating=regularly_updating,
             )
+
+
+def regularly_updating_check(last_updated):
+    today = datetime.utcnow()
+    return ((today - last_updated).total_seconds()/60) < 10
 
 
 def delete_venues():
     all_venues = Venues.objects.all()
     deleted = all_venues.delete()
-    #Todo logging
-    print("deleted: " + str(deleted))
+    logger.info("Number of deleted venues: {}".format(str(deleted)))
 
 
 def get_camera_url(items):

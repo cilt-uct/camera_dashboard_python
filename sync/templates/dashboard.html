@@ -5,6 +5,9 @@
 
 {% block content %}
     <h1>{{ title }}</h1>
+    <h2>Total number of venues: {{ venue_length }} </h2>
+    <h2>Total number of online venues: {{ venue_online }} </h2>
+    <h2>Total number of offline venues: {{ venue_offline }} </h2>
     <div>
         {% for venue in venues %}
             <div class="gallery">

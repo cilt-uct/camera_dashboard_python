@@ -1,5 +1,5 @@
 from mongoengine import Document
-from mongoengine.fields import StringField, DateTimeField
+from mongoengine.fields import StringField, DateTimeField, BooleanField
 
 
 class Venues(Document):
@@ -7,3 +7,4 @@ class Venues(Document):
     cam_url = StringField(null=False)
     last_updated = DateTimeField(null=False)
     sync_time = DateTimeField(null=False)
+    regularly_updating = BooleanField(null=False)

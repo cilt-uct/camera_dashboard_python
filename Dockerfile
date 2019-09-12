@@ -7,4 +7,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils && ap
 ADD ./ /camera_dashboard
 WORKDIR /camera_dashboard
 
+COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
 EXPOSE 3000

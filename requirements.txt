@@ -1,4 +1,5 @@
-billiard
+billiard==3.6.1
+gevent==1.4.0
 uWSGI==2.0.18
 Django==2.1.11
 djongo==1.2.31
@@ -19,6 +20,7 @@ python-dateutil==2.8.0
 numexpr==2.6.9
 watchtower==0.5.5
 requests==2.21.0
+django-jquery
 # Version lock "sqlparse" to prevent Djongo migration error
 # Refer to https://github.com/nesdis/djongo/issues/244
 sqlparse==0.2.4

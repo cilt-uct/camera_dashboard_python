@@ -1,10 +1,9 @@
-from django.conf.urls import url
+from django.urls import path
 
 from . import views
 
 urlpatterns = [
-    url("", views.dashboard),
-    url("tiled/", views.tiled),
-    url("venues/", views.venues),
-    url("ca.json/", views.cas),
+    path("", views.dashboard, name='dashboard'),
+    path("venues/", views.venues, name='venues'),
+    path("ca.json/", views.cas),
 ]

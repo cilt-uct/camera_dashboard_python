@@ -9,10 +9,21 @@
             {% endblock title %}
         </title>
         <link href="{% static '' %}css/index.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="{% static '' %}js/jquery.js"></script>
     </head>
+
     <body>
-        {% block content %}
-        <p>Placeholder text in base template. Replace with page content.</p>
-        {% endblock content %}
+        {% block nav %}
+            <ul id="menu" class="menu">
+                <li><a class="{{dash_active}}" href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a class="{{venue_active}}" href="{% url 'venues' %}">Venues</a></li>
+                <li><img src="{% static '' %}logo/uct_logo.png" id="logo"/></li>
+            </ul>
+        {% endblock %}
+        <div id="content">
+            {% block content %}
+            <p>Placeholder text in base template. Replace with page content.</p>
+            {% endblock content %}
+        </div>
     </body>
 </html>

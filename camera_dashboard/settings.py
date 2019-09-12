@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import mongoengine
-from celery.schedules import crontab
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,7 +26,7 @@ SECRET_KEY = 'xi5$elt_%72gea^++lc%v9%p3h3ghn0v5%an9^119bow29of97'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['camonitor.uct.ac.za']
+ALLOWED_HOSTS = ['camonitor.uct.ac.za', 'localhost']
 
 
 # Application definition
@@ -40,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_celery_beat',
+    'jquery',
     'jobs',
     'sync'
 ]
@@ -112,9 +112,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'sync/static'),
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'sync/static'),
+# ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'sync/static')
 
 # Default celery broker
 # http://docs.celeryproject.org/en/latest/getting-started/brokers/rabbitmq.html
@@ -124,17 +125,6 @@ CELERY_ENABLE_UTC = True
 CELERY_BROKER_URL = "amqp://rabbitmq"
 CELERY_IMPORTS = ['jobs.feeds', 'jobs.sync_agents']
 BROKER_POOL_LIMIT = None
-
-CELERY_BEAT_SCHEDULE = {
-    'feeds_every_five_minutes': {
-        'task': 'jobs.feeds.get_feeds',
-        'schedule': crontab(minute="*/11"),
-    },
-    'sync_once_a_week': {
-        'task': 'jobs.sync_agents.do_sync',
-        'schedule': crontab(minute="*/15"),
-    },
-}
 
 # MongoDB served via Docker container (docker-compose)
 NOSQL_DATABASE = {"ENGINE": "djongo", "HOST": "db", "NAME": "camera_dashboard"}

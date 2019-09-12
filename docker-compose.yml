@@ -15,31 +15,31 @@ services:
 
   cam_dash:
       build: .
-      command: python manage.py runserver 0.0.0.0:3000
+      command: python3 manage.py runserver 0.0.0.0:3000
       volumes:
         - .:/camera_dashboard
       ports:
         - "3000:3000"
       depends_on:
-        - db
+        - "db"
 
   celery:
       build: .
       volumes:
         - .:/camera_dashboard
       depends_on:
-        - rabbitmq
-        - cam_dash
+        - "rabbitmq"
+        - "cam_dash"
       environment:
         - LOG_STREAM=Celery
-      command: celery -A camera_dashboard worker -B -l INFO
+      command: celery -A camera_dashboard worker -l INFO -c 200
 
   celery_beat:
       build: .
       volumes:
         - .:/camera_dashboard
       depends_on:
-        - celery
+        - "celery"
       environment:
         - LOG_STREAM=CeleryBeat
       command: celery beat -A camera_dashboard -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler

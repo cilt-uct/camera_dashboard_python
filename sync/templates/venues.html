@@ -1,7 +1,23 @@
 {% extends 'layout.html' %}
 
 {% block title %}{{ title }}{% endblock title %}
+
 {% block content %}
-<h1>{{ title }}</h1>
-<p>{% autoescape off %}Hellllooooo{% endautoescape %}</p>
+    <h1>{{ title }}</h1>
+    <table>
+        <tr>
+            <th>Venue</th>
+            <th>Last update</th>
+            <th>Sync update</th>
+            <th>Regularly Updating</th>
+        </tr>
+        {% for venue in venues %}
+            <tr>
+                <td>{{venue.venue_name}}</td>
+                <td>{{venue.last_updated}}</td>
+                <td>{{venue.sync_time}}</td>
+                <td>{{venue.regularly_updating}}</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock content %}
