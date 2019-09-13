@@ -28,6 +28,7 @@ def do_sync():
                 continue
 
             venue_name = agent["name"]
+            status = agent["state"]
             last_updated = datetime.utcnow()
             sync_time = datetime.utcnow()
             items = agent["capabilities"]["item"]
@@ -53,6 +54,7 @@ def do_sync():
                 last_updated=last_updated,
                 sync_time=sync_time,
                 regularly_updating=regularly_updating,
+                status=status
             )
 
 

@@ -11,11 +11,34 @@
     <div>
         {% for venue in venues %}
             <div class="gallery">
-                <a target="_blank" href="feeds/{{venue.venue_name}}/{{venue.venue_name}}_big.jpeg">
+                <a id="{{venue.venue_name}}" href="#" onClick="popup(this.id)">
                     <img src="{% static '' %}feeds/{{venue.venue_name}}/{{venue.venue_name}}.jpeg" alt="Capture currently available" onerror="this.onerror=null;this.src='/static/placeholder/unavailable.jpg';">
                 </a>
                 <div class="desc">{{venue.venue_name}}</div>
             </div>
         {% endfor %}
     </div>
+
+    <div id="popup">
+        <div class="popup-content">
+            <h1 id="heading"></h1>
+            <img id="popUpImage" alt="Capture currently available" onerror="this.onerror=null;this.src='/static/placeholder/unavailable.jpg';">
+            <p><button onclick="closePopup()">Close</button></p>
+        </div>
+    </div>
+
+    <script>
+        var popup1 = document.getElementById("popup");
+
+        function popup(id) {
+            document.getElementById("popUpImage").src = "static/feeds/" + id + "/" + id + "_big.jpeg";
+            document.getElementById("heading").innerHTML = id;
+            popup1.style.display = "block";
+        }
+
+        function closePopup() {
+            console.log("close");
+            popup1.style.display = "none";
+        }
+    </script>
 {% endblock content %}

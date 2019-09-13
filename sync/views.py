@@ -41,6 +41,7 @@ def cas(request):
         del data['venue_name']
         del data['cam_url']
         del data['regularly_updating']
+        del data['status']
         del data['last_updated']
         del data['sync_time']
         transformed_data.append(data)

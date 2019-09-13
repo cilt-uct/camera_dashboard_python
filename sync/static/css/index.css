@@ -1,5 +1,7 @@
 body {
     margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    src: local('Open Sans'), url('/static/fonts/OpenSans-Regular.ttf') format('truetype');
 }
 
 #content {
@@ -42,9 +44,12 @@ li a:hover:not(.active) {
 
 /*logo*/
 #logo {
-    width: 100%;
+    width: 80%;
     position: absolute;
     bottom: 0;
+    margin-left: 10%;
+    margin-bottom: 10%;
+
 }
 
 /*Capture tile styling*/
@@ -88,4 +93,26 @@ tr:nth-child(even){
 th {
     background-color: #0090CF;
     color: white;
+}
+
+/*Popup*/
+#popup {
+	display: none;
+    position: fixed;
+    padding: 10px;
+    width: 40%;
+    left: 35%;
+    height: 60%;
+    top: 20%;
+    background: #FFF;
+    z-index: 20;
+    -webkit-box-shadow:  0px 0px 0px 9999px rgba(0, 0, 0, 0.5);
+    box-shadow:  0px 0px 0px 9999px rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+	padding: 20px;
+	margin: 0 auto;
+	background-color: white;
+	text-align: center;
 }
