@@ -1,18 +1,23 @@
 from __future__ import absolute_import
 import os
 from celery import Celery
+import django
 from django.conf import settings
 from celery.schedules import crontab
-from jobs import feeds, sync_agents
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'camera_dashboard.settings')
+django.setup()
 app = Celery('camera_dashboard')
-app.conf.broker_url = 'amqp://rabbitmq'
-app.config_from_object('django.conf:settings', namespace='CELERY')
-app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
+app.config_from_object(settings, namespace='CELERY')
+app.autodiscover_tasks(lambda: settings.INSTALLED_APPS, force=True)
 
-
-@app.on_after_configure.connect
-def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(crontab(minute="*/7 * * * *"), sync_agents.do_sync())
-    sender.add_periodic_task(crontab(minute="*/5 * * * *"), feeds.get_feeds())
+app.conf.beat_schedule = {
+    'do_sync': {
+        'task': 'jobs.sync_agents.do_sync',
+        'schedule': crontab(minute="*/7 * * * *")
+    },
+    'get_feeds': {
+        'task': 'jobs.feeds.get_feeds',
+        'schedule': crontab(minute="*/5 * * * *")
+    },
+}

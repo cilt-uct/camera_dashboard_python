@@ -3,7 +3,6 @@ from celery import shared_task
 from .models import Venues
 from config import DIRECTORY
 from celery.utils.log import get_task_logger
-import time
 
 logger = get_task_logger(__name__)
 

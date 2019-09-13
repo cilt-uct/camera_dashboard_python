@@ -112,9 +112,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'sync/static'),
-# ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'sync/static')
 
 # Default celery broker
@@ -124,7 +121,6 @@ CELERY_TIMEZONE = "UTC"
 CELERY_ENABLE_UTC = True
 CELERY_BROKER_URL = "amqp://rabbitmq"
 CELERY_IMPORTS = ['jobs.feeds', 'jobs.sync_agents']
-BROKER_POOL_LIMIT = None
 
 # MongoDB served via Docker container (docker-compose)
 NOSQL_DATABASE = {"ENGINE": "djongo", "HOST": "db", "NAME": "camera_dashboard"}

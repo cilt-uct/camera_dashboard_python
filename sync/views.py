@@ -1,5 +1,8 @@
 from jobs.models import Venues
 from django.shortcuts import render
+from datetime import datetime
+from django.http import HttpResponse
+import json
 
 
 def dashboard(request):
@@ -26,6 +29,21 @@ def venues(request):
     return render(request, 'venues.html', data)
 
 
-def cas():
-    print("cas")
+def cas(request):
+    all_venues = Venues.objects.all()
+    json_data = json.loads(all_venues.to_json())
+    transformed_data = []
+
+    for data in json_data:
+        data['ca_name'] = data['venue_name']
+        data['time_since_last_update'] = int(datetime.utcnow().timestamp() - (data['last_updated']['$date']/1000))
+        del data['_id']
+        del data['venue_name']
+        del data['cam_url']
+        del data['regularly_updating']
+        del data['last_updated']
+        del data['sync_time']
+        transformed_data.append(data)
+
+    return HttpResponse(json.dumps(transformed_data), content_type='application/json')
 
