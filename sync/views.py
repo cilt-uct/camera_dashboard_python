@@ -1,4 +1,4 @@
-from jobs.models import Venues
+from jobs.models import Venues, VenueDict
 from django.shortcuts import render
 from datetime import datetime
 from django.http import HttpResponse
@@ -21,9 +21,20 @@ def dashboard(request):
 
 def venues(request):
     all_venues = Venues.objects.all()
+    all_venues_dict = []
+
+    for venue in all_venues:
+        new_venue = dict(VenueDict(
+            venue['venue_name'],
+            venue['status'],
+            venue['cam_url'],
+            venue['last_updated'],
+            venue['sync_time']))
+        all_venues_dict.append(new_venue)
+
     data = {
         "title": "Venues",
-        "venues": all_venues,
+        "venues": all_venues_dict,
         "venue_active": "active",
     }
     return render(request, 'venues.html', data)
@@ -40,7 +51,6 @@ def cas(request):
         del data['_id']
         del data['venue_name']
         del data['cam_url']
-        del data['regularly_updating']
         del data['status']
         del data['last_updated']
         del data['sync_time']

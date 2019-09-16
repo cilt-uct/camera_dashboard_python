@@ -46,21 +46,13 @@ def do_sync():
                     logger.info("Updating timestamp for: {}.".format(file_path))
                     last_updated = datetime.fromtimestamp(os.path.getmtime(file_path))
 
-            regularly_updating = regularly_updating_check(last_updated)
-
             Venues.objects.create(
                 venue_name=venue_name,
                 cam_url=cam_url,
                 last_updated=last_updated,
                 sync_time=sync_time,
-                regularly_updating=regularly_updating,
                 status=status
             )
-
-
-def regularly_updating_check(last_updated):
-    today = datetime.utcnow()
-    return ((today - last_updated).total_seconds()/60) < 10
 
 
 def delete_venues():
