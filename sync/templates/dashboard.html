@@ -5,9 +5,11 @@
 
 {% block content %}
     <h1>{{ title }}</h1>
-    <h2>Total number of venues: {{ venue_length }} </h2>
-    <h2>Total number of online venues: {{ venue_online }} </h2>
-    <h2>Total number of offline venues: {{ venue_offline }} </h2>
+    <div class="btn-group">
+        <a href="{% url 'dashboard' %}">Total Venues <span>{{ venue_length }}</span></a>
+        <a href="{% url 'online' %}">Online Venues <span>{{ venue_online }}</span></a>
+        <a href="{% url 'offline' %}">Offline Venues <span>{{ venue_offline }}</span></a>
+    </div>
     <div>
         {% for venue in venues %}
             <div class="gallery">

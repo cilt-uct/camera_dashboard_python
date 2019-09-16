@@ -3,17 +3,24 @@ from jobs.models import Venues, VenueDict
 from datetime import datetime
 
 
-def dashboard_data():
+def dashboard_data(filter):
     all_venues = Venues.objects.all()
     online_venues = [a for a in all_venues if a["cam_url"]]
+    offline_venues = [a for a in all_venues if not a["cam_url"]]
+    venues = all_venues
+
+    if filter == 'online':
+        venues = online_venues
+    elif filter == 'offline':
+        venues = offline_venues
 
     return {
         "title": "Camera Dashboard",
-        "venues": all_venues,
+        "venues": venues,
         "dash_active": "active",
         "venue_length": len(all_venues),
         "venue_online": len(online_venues),
-        "venue_offline": (len(all_venues) - len(online_venues)),
+        "venue_offline": len(offline_venues),
     }
 
 

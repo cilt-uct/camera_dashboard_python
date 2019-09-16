@@ -116,3 +116,29 @@ th {
 	background-color: white;
 	text-align: center;
 }
+
+/*Buttons*/
+.btn-group a {
+  background-color: #0090CF;
+  border: 1px solid  #555;
+  color: white;
+  padding: 10px 24px;
+  margin-left: 1%;
+  cursor: pointer;
+  float: left;
+  text-decoration: none;
+}
+
+.btn-group a:not(:last-child) {
+  border-right: none;
+}
+
+.btn-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.btn-group a:hover {
+  background-color:  #555;
+}
