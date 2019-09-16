@@ -11,11 +11,11 @@ logger = get_task_logger(__name__)
 def get_feeds():
     commands = []
     all_venues = Venues.objects.all()
-    running_procs = os.system('ps aux | grep "[o]penRTSP" | wc - l')
+    running_procs = os.system('ps aux | grep "[o]penRTSP" | wc -l')
 
     if int(running_procs) > 0:
         logger.info("There are currently {} running/hanging OpenRTSP processes. Killing them all.".format(running_procs))
-        os.system("killall openRTSP 2>&1 > /dev/null")
+        os.system("kill  -9 $(ps aux | grep '[o]penRTSP' | awk '{print $2}') > /var/log/feeds.log 2>&1")
 
     for venue in all_venues:
         folder_path = DIRECTORY + venue["venue_name"] + "/"
