@@ -1,5 +1,5 @@
 from mongoengine import Document
-from mongoengine.fields import StringField, DateTimeField, BooleanField
+from mongoengine.fields import StringField, DateTimeField
 from datetime import datetime
 
 

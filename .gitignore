@@ -28,4 +28,5 @@ celerybeat.pid
 celery-schedule
 config.py
 data
-js
+js/
+admin/
