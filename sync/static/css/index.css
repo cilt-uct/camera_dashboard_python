@@ -117,6 +117,10 @@ th {
 	text-align: center;
 }
 
+#popUpImage {
+    width: 90%;
+}
+
 /*Buttons*/
 .btn-group a {
   background-color: #0090CF;
