@@ -21,6 +21,7 @@ numexpr==2.6.9
 watchtower==0.5.5
 requests==2.21.0
 django-jquery
+django-basicauth
 # Version lock "sqlparse" to prevent Djongo migration error
 # Refer to https://github.com/nesdis/djongo/issues/244
 sqlparse==0.2.4
