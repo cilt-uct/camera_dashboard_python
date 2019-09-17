@@ -14,7 +14,7 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS, force=True)
 app.conf.beat_schedule = {
     'do_sync': {
         'task': 'jobs.sync_agents.do_sync',
-        'schedule': crontab(hour="0")
+        'schedule': crontab(minute="3", hour="0")
     },
     'get_feeds': {
         'task': 'jobs.feeds.get_feeds',
