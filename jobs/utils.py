@@ -8,16 +8,13 @@ from .models import Venues
 logger = get_task_logger(__name__)
 
 
-def check_if_files_exist(cam_url, venue_name):
-    if cam_url:
-        folder_path = DIRECTORY + venue_name + "/"
-        file_path = folder_path + venue_name + ".jpeg"
+def check_if_files_exist(venue_name):
+    file_path = get_file_path(venue_name)
+    if os.path.isfile(file_path):
+        logger.info("Updating timestamp for: {}.".format(file_path))
+        return True
 
-        if os.path.isfile(file_path):
-            logger.info("Updating timestamp for: {}.".format(file_path))
-            return datetime.fromtimestamp(os.path.getmtime(file_path))
-
-    return datetime.utcnow()
+    return False
 
 
 def check_if_folders_exist(venue_name):
@@ -26,11 +23,26 @@ def check_if_folders_exist(venue_name):
     if not os.path.isdir(folder_path):
         logger.info("Creating folder: {}.".format(folder_path))
         os.makedirs(folder_path, exist_ok=True)
+        return True
+
+    return False
 
 
-def check_if_files_and_folders_exist(cam_url, venue_name):
-    check_if_folders_exist(venue_name)
-    return check_if_files_exist(cam_url, venue_name)
+def get_timestamp(venue_name):
+    file_path = get_file_path(venue_name)
+    return datetime.fromtimestamp(os.path.getmtime(file_path))
+
+
+def files_and_folders_exist(venue_name):
+    if check_if_folders_exist(venue_name) and check_if_files_exist(venue_name):
+        return True
+
+    return False
+
+
+def get_file_path(venue_name):
+    folder_path = DIRECTORY + venue_name + "/"
+    return folder_path + venue_name + ".jpeg"
 
 
 def delete_venues():

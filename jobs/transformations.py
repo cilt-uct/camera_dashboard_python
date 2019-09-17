@@ -1,4 +1,4 @@
-from .utils import check_if_files_and_folders_exist, get_camera_url
+from .utils import files_and_folders_exist, get_camera_url, get_timestamp
 from datetime import datetime
 
 
@@ -12,5 +12,5 @@ def create_venue(agent):
         'status': agent["state"],
         'sync_time': datetime.utcnow(),
         'cam_url': cam_url,
-        'last_updated': check_if_files_and_folders_exist(cam_url, venue_name),
+        'last_updated': get_timestamp(venue_name) if files_and_folders_exist(venue_name) else datetime.utcnow(),
     }

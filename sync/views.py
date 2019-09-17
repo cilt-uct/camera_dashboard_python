@@ -6,19 +6,19 @@ from basicauth.decorators import basic_auth_required
 
 @basic_auth_required
 def dashboard(request):
-    data = dashboard_data(filter="")
+    data = dashboard_data("")
     return render(request, 'dashboard.html', data)
 
 
 @basic_auth_required
 def online(request):
-    data = dashboard_data(filter="online")
+    data = dashboard_data("online")
     return render(request, 'dashboard.html', data)
 
 
 @basic_auth_required
 def offline(request):
-    data = dashboard_data(filter="offline")
+    data = dashboard_data("offline")
     return render(request, 'dashboard.html', data)
 
 
@@ -28,7 +28,6 @@ def venues(request):
     return render(request, 'venues.html', data)
 
 
-@basic_auth_required
 def cas(request):
     data = ca_json()
     return HttpResponse(data, content_type='application/json')
