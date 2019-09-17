@@ -10,7 +10,7 @@ def create_venue(agent):
     return {
         'venue_name': venue_name,
         'status': agent["state"],
-        'sync_time': datetime.utcnow(),
+        'sync_time': datetime.now(),
         'cam_url': cam_url,
-        'last_updated': get_timestamp(venue_name) if files_and_folders_exist(venue_name) else datetime.utcnow(),
+        'last_updated': get_timestamp(venue_name) if files_and_folders_exist(venue_name) else datetime.now(),
     }

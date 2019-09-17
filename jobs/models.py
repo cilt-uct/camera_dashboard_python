@@ -31,5 +31,5 @@ class VenueDict(object):
 
 
 def regularly_updating_check(last_updated):
-    today = datetime.utcnow()
+    today = datetime.now()
     return ((today - last_updated).total_seconds()/60) < 10

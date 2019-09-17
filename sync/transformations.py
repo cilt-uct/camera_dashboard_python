@@ -64,7 +64,7 @@ def ca_json():
 
     for data in valid_venues:
         data['ca_name'] = data['venue_name']
-        data['time_since_last_update'] = int(datetime.utcnow().timestamp() - (data['last_updated']['$date'] / 1000))
+        data['time_since_last_update'] = int(datetime.now().timestamp() - (data['last_updated']['$date'] / 1000))
         del data['_id']
         del data['venue_name']
         del data['cam_url']
