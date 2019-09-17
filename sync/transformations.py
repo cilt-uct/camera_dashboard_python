@@ -5,11 +5,13 @@ from jobs.utils import check_if_files_exist, get_timestamp
 
 
 def dashboard_data(selected_filter):
+    online_active = offline_active = ""
     all_venues = Venues.objects.all()
     valid_venues = [a for a in all_venues if a["cam_url"]]
     online_venues = []
     offline_venues = []
     venues = valid_venues
+    all_active = "active"
 
     for venue in valid_venues:
         name = venue["venue_name"]
@@ -22,13 +24,20 @@ def dashboard_data(selected_filter):
 
     if selected_filter == 'online':
         venues = online_venues
+        online_active = "active"
+        all_active = ""
     elif selected_filter == 'offline':
         venues = offline_venues
+        offline_active = "active"
+        all_active = ""
 
     return {
         "title": "Camera Dashboard",
         "venues": venues,
         "dash_active": "active",
+        "all_active": all_active,
+        "online_active": online_active,
+        "offline_active": offline_active,
         "venue_length": len(valid_venues),
         "venue_online": len(online_venues),
         "venue_offline": len(offline_venues),
