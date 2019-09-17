@@ -18,6 +18,6 @@ app.conf.beat_schedule = {
     },
     'get_feeds': {
         'task': 'jobs.feeds.get_feeds',
-        'schedule': crontab(minute="5")
+        'schedule': crontab(minute="*/5 * * * *")
     },
 }
