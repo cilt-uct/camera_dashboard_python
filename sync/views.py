@@ -31,3 +31,17 @@ def venues(request):
 def cas(request):
     data = ca_json()
     return HttpResponse(data, content_type='application/json')
+
+
+def robots(request):
+    f = open('/camera_dashboard/robots.txt', 'r')
+    file_content = f.read()
+    f.close()
+    return HttpResponse(file_content, content_type='application/json')
+
+
+def humans(request):
+    f = open('/camera_dashboard/humans.txt', 'r')
+    file_content = f.read()
+    f.close()
+    return HttpResponse(file_content, content_type='application/json')

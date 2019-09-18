@@ -8,4 +8,6 @@ urlpatterns = [
     path("ip-cam/offline/", views.offline, name='offline'),
     path("ip-cam/venues/", views.venues, name='venues'),
     path("ip-cam/ca.json", views.cas),
+    path("ip-cam/robots.txt", views.robots),
+    path("ip-cam/humans.txt", views.humans),
 ]
