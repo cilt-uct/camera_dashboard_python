@@ -14,7 +14,7 @@
         {% for venue in venues %}
             <div class="gallery">
                 <a id="{{venue.venue_name}}" href="#" onClick="popup(this.id)">
-                    <img src="{% static '' %}feeds/{{venue.venue_name}}/{{venue.venue_name}}.jpeg" alt="Capture currently available" onerror="this.onerror=null;this.src='/static/placeholder/unavailable.jpg';">
+                    <img class="{{venue.outOfDate}}" src="{% static '' %}feeds/{{venue.venue_name}}/{{venue.venue_name}}.jpeg" alt="Capture currently available" onerror="this.onerror=null;this.src='/static/placeholder/unavailable.jpg';">
                 </a>
                 <div class="desc">{{venue.venue_name}}</div>
             </div>

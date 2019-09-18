@@ -151,3 +151,11 @@ th {
 .btn-group a:hover {
   background-color:  #555;
 }
+
+/* greyed out image */
+.greyed-out-img {
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+  -webkit-filter: blur(5px); /* Safari */
+  filter: blur(5px);
+}

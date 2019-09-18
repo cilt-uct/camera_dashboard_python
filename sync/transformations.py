@@ -7,7 +7,8 @@ from jobs.utils import check_if_files_exist, get_timestamp
 def dashboard_data(selected_filter):
     online_active = offline_active = ""
     all_venues = Venues.objects.all()
-    valid_venues = [a for a in all_venues if a["cam_url"]]
+    json_data = json.loads(all_venues.to_json())
+    valid_venues = [a for a in json_data if a["cam_url"]]
     online_venues = []
     offline_venues = []
     venues = valid_venues
@@ -18,6 +19,7 @@ def dashboard_data(selected_filter):
         if check_if_files_exist(name):
             time = get_timestamp(name)
             if not regularly_updating_check(time):
+                venue["outOfDate"] = "greyed-out-img"
                 offline_venues.append(venue)
             else:
                 online_venues.append(venue)
