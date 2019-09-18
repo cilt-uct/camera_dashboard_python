@@ -18,7 +18,7 @@ services:
   cam_dash:
     restart: always
     build: .
-    command: python3 manage.py runserver 127.0.0.1:3000
+    command: python3 manage.py runserver 0.0.0.0:3000
     ports:
       - "127.0.0.1:3000:3000"
     volumes:

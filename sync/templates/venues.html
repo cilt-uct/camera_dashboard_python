@@ -9,7 +9,6 @@
             <th>Venue</th>
             <th>Last update</th>
             <th>Sync update</th>
-            <th>Regularly Updating</th>
             <th>Status</th>
         </tr>
         {% for venue in venues %}
@@ -17,7 +16,6 @@
                 <td>{{venue.venue_name}}</td>
                 <td>{{venue.last_updated}}</td>
                 <td>{{venue.sync_time}}</td>
-                <td>{{venue.regularly_updating}}</td>
                 <td>{{venue.status}}</td>
             </tr>
         {% endfor %}
