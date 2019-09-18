@@ -21,8 +21,6 @@ services:
     command: python3 manage.py runserver 0.0.0.0:3000
     volumes:
       - .:/camera_dashboard
-    ports:
-      - "3000:3000"
     depends_on:
       - "db"
 

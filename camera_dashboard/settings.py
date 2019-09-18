@@ -123,6 +123,10 @@ CELERY_ENABLE_UTC = True
 CELERY_BROKER_URL = "amqp://rabbitmq"
 CELERY_IMPORTS = ['jobs.feeds', 'jobs.sync_agents']
 
+# Workaround for "BrokenPipeError: [Errno 32] Broken pipe" issue with Celery
+# Refer to https://github.com/celery/celery/issues/4226
+BROKER_POOL_LIMIT = None
+
 # MongoDB served via Docker container (docker-compose)
 NOSQL_DATABASE = {"ENGINE": "djongo", "HOST": "db", "NAME": "camera_dashboard"}
 DATABASES = {"default": NOSQL_DATABASE}
