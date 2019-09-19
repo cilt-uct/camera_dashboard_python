@@ -8,13 +8,13 @@
     <div class="btn-group">
         <a class="{{all_active}}" href="{% url 'dashboard' %}">Total Venues <span>{{ venue_length }}</span></a>
         <a class="{{online_active}}" href="{% url 'online' %}">Online Venues <span>{{ venue_online }}</span></a>
-        <a class="{{offline_active}}" href="{% url 'offline' %}">Offline Venues <span>{{ venue_offline }}</span></a>
+        <a class="{{offline_active}} {{offline}}" href="{% url 'offline' %}">Offline Venues <span>{{ venue_offline }}</span></a>
     </div>
     <div>
         {% for venue in venues %}
-            <div class="gallery">
+            <div class="gallery {{venue.outOfDate}}">
                 <a id="{{venue.venue_name}}" href="#" onClick="popup(this.id)">
-                    <img class="{{venue.outOfDate}}" src="{% static '' %}feeds/{{venue.venue_name}}/{{venue.venue_name}}.jpeg" alt="Capture currently available" onerror="this.onerror=null;this.src='/static/placeholder/unavailable.jpg';">
+                    <img src="{% static '' %}feeds/{{venue.venue_name}}/{{venue.venue_name}}.jpeg" alt="Capture currently available" onerror="this.onerror=null;this.src='/static/placeholder/unavailable.jpg';">
                 </a>
                 <div class="desc">{{venue.venue_name}}</div>
             </div>

@@ -17,7 +17,7 @@ def get_feeds():
         venue_name = venue["venue_name"]
 
         if contains_unusual_characters(venue_name):
-            logger.warn("Could not create the venue {} as it contained special characters".format(agent["name"]))
+            logger.warn("Could not create the venue {} as it contained special characters".format(venue_name))
             continue
 
         if check_if_folders_exist(venue_name):

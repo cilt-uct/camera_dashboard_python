@@ -23,7 +23,7 @@ migrations/
 # Backend files
 db.sqlite3
 scheduler/*.state
-feeds
+feeds/
 celerybeat.pid
 celery-schedule
 config.py
