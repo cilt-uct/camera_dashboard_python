@@ -10,24 +10,23 @@ logger = get_task_logger(__name__)
 
 @shared_task
 def get_feeds():
-    commands = []
     all_venues = Venues.objects.all()
     check_and_stop_running_processes()
 
     for venue in all_venues:
         venue_name = venue["venue_name"]
-        check_if_folders_exist(venue_name)
+        if check_if_folders_exist(venue_name):
+            command = str("openRTSP -F " + venue_name + " -d 10 -b 400000 " + venue["cam_url"]
+                          + " && ffmpeg -y -i " + venue_name + "video-H264-1 -r 1 -vframes 1"
+                          + " -f image2 " + DIRECTORY + venue_name + "/" + venue_name
+                          + "_big.jpeg && ffmpeg -y -i " + DIRECTORY + venue_name
+                          + "/" + venue_name + "_big.jpeg -s 320x180 -f image2 " + DIRECTORY
+                          + venue_name + "/" + venue_name + ".jpeg && rm -f " + venue_name + "*")
 
-        command = str("openRTSP -F " + venue_name + " -d 10 -b 400000 " + venue["cam_url"]
-                      + " && ffmpeg -y -i " + venue_name + "video-H264-1 -r 1 -vframes 1"
-                      + " -f image2 " + DIRECTORY + venue_name + "/" + venue_name
-                      + "_big.jpeg && ffmpeg -y -i " + DIRECTORY + venue_name
-                      + "/" + venue_name + "_big.jpeg -s 320x180 -f image2 " + DIRECTORY
-                      + venue_name + "/" + venue_name + ".jpeg && rm -f " + venue_name + "*")
-
-        commands.append(command)
-        logger.info("Starting the fetch of lecture recording captures.")
-        run_command.delay(command)
+            logger.info("Starting the fetch of lecture recording captures.")
+            run_command.delay(command)
+        else:
+            logger.warn("Unable to run any commands for {}".format(venue_name))
 
 
 @shared_task

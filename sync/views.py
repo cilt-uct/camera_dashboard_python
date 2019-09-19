@@ -37,11 +37,11 @@ def robots(request):
     f = open('/camera_dashboard/robots.txt', 'r')
     file_content = f.read()
     f.close()
-    return HttpResponse(file_content, content_type='application/json')
+    return HttpResponse(file_content, content_type='text/plain')
 
 
 def humans(request):
     f = open('/camera_dashboard/humans.txt', 'r')
     file_content = f.read()
     f.close()
-    return HttpResponse(file_content, content_type='application/json')
+    return HttpResponse(file_content, content_type='text/plain')
