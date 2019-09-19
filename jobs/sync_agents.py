@@ -4,7 +4,7 @@ from celery import shared_task
 from celery.utils.log import get_task_logger
 from requests.auth import HTTPDigestAuth
 
-from config import DIGEST_AUTH
+from config import DIGEST_AUTH, CAPTURE_AGENT_URL
 from .models import Venues
 from .utils import delete_venues
 from .transformations import create_venue
@@ -15,13 +15,18 @@ logger = get_task_logger(__name__)
 @shared_task
 def do_sync():
     auth = HTTPDigestAuth(DIGEST_AUTH["username"], DIGEST_AUTH["password"])
-    url = 'https://media.uct.ac.za/capture-admin/agents.json'
+    url = CAPTURE_AGENT_URL
     params = {"X-Requested-Auth": "Digest"}
+    agents = ""
 
-    response = requests.get(url, auth=auth, headers=params)
-    data = json.loads(response.text)
-    agents = data["agents"]["agent"]
-    logger.info("Number of agents {}.".format(len(agents)))
+    try:
+        response = requests.get(url, auth=auth, headers=params)
+        data = json.loads(response.text)
+        agents = data["agents"]["agent"]
+        logger.info("Number of agents {}.".format(len(agents)))
+    except requests.HTTPError as e:
+        status_code = e.response.status_code
+        logger.error("Failed to fetch capture agents".format(status_code))
 
     if agents:
         delete_venues()

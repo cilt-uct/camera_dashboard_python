@@ -9,5 +9,5 @@ Name: https://github.com/cilt-uct/camera_dashboard_python
 /* SITE */
 Last update: 2019/09/13
 Standards: HTML5, CSS3
-Components: Modernizr, jQuery, Bootstrap, Moment, tmpl
+Components: Django, Python 3.7, jQuery, Mongo, Celery
 Software: Software used for the monitoring lecture venues
