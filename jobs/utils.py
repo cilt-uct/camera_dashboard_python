@@ -1,4 +1,5 @@
 import os
+import re
 from datetime import datetime
 from config import DIRECTORY
 from celery.utils.log import get_task_logger
@@ -73,3 +74,11 @@ def check_and_stop_running_processes():
         logger.info(
             "There are currently {} running/hanging OpenRTSP processes. Killing them all.".format(running_procs))
         os.system("kill  -9 $(ps aux | grep '[o]penRTSP' | awk '{print $2}') > /var/log/feeds.log 2>&1")
+
+
+def contains_unusual_characters(venue_name):
+    pattern = re.compile("^[A-Za-z0-9]+$")
+    if pattern.match(venue_name):
+        return False
+
+    return True

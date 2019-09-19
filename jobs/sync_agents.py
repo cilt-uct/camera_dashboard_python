@@ -6,7 +6,7 @@ from requests.auth import HTTPDigestAuth
 
 from config import DIGEST_AUTH, CAPTURE_AGENT_URL
 from .models import Venues
-from .utils import delete_venues
+from .utils import delete_venues, contains_unusual_characters
 from .transformations import create_venue
 
 logger = get_task_logger(__name__)
@@ -17,7 +17,7 @@ def do_sync():
     auth = HTTPDigestAuth(DIGEST_AUTH["username"], DIGEST_AUTH["password"])
     url = CAPTURE_AGENT_URL
     params = {"X-Requested-Auth": "Digest"}
-    agents = ""
+    agents = {}
 
     try:
         response = requests.get(url, auth=auth, headers=params)
@@ -34,6 +34,11 @@ def do_sync():
 
         for agent in agents:
             if not agent["capabilities"]:
+                continue
+
+            venue_name = agent["name"]
+            if contains_unusual_characters(venue_name):
+                logger.warn("Could not create the venue {} as it contained special characters".format(venue_name))
                 continue
 
             venue = create_venue(agent)

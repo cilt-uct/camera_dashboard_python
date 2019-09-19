@@ -1,7 +1,7 @@
 import os
 from celery import shared_task
 from .models import Venues
-from .utils import check_and_stop_running_processes, check_if_folders_exist
+from .utils import check_and_stop_running_processes, check_if_folders_exist, contains_unusual_characters
 from config import DIRECTORY
 from celery.utils.log import get_task_logger
 
@@ -15,6 +15,11 @@ def get_feeds():
 
     for venue in all_venues:
         venue_name = venue["venue_name"]
+
+        if contains_unusual_characters(venue_name):
+            logger.warn("Could not create the venue {} as it contained special characters".format(agent["name"]))
+            continue
+
         if check_if_folders_exist(venue_name):
             command = str("openRTSP -F " + venue_name + " -d 10 -b 400000 " + venue["cam_url"]
                           + " && ffmpeg -y -i " + venue_name + "video-H264-1 -r 1 -vframes 1"

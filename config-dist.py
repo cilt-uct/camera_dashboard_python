@@ -2,12 +2,8 @@
 DIRECTORY = "sync/static/feeds/"
 
 DIGEST_AUTH = {
-    "username": "my_usename",
-    "password": "my_password"
+    "username": "admin",
+    "password": "opencast"
 }
 
-BASICAUTH_USERS_LIST = {
-    "username": "password"
-}
-
-CAPTURE_AGENT_URL = "https://opencast.org/capture-admin/agents.json"
+CAPTURE_AGENT_URL = "https://stable.opencast.org/capture-admin/agents.json"

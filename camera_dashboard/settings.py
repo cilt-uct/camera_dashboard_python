@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import mongoengine
-from config import BASICAUTH_USERS_LIST
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -131,5 +130,3 @@ BROKER_POOL_LIMIT = None
 NOSQL_DATABASE = {"ENGINE": "djongo", "HOST": "db", "NAME": "camera_dashboard"}
 DATABASES = {"default": NOSQL_DATABASE}
 mongoengine.connect(NOSQL_DATABASE["NAME"], host=NOSQL_DATABASE["HOST"])
-
-BASICAUTH_USERS = BASICAUTH_USERS_LIST
