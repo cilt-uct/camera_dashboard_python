@@ -1,6 +1,5 @@
 from mongoengine import Document
 from mongoengine.fields import StringField, DateTimeField
-from datetime import datetime
 
 
 class Venues(Document):
@@ -18,18 +17,11 @@ class VenueDict(object):
         self.cam_url = c
         self.last_updated = d
         self.sync_time = e
-        self.regularly_updating = regularly_updating_check(d)
 
     def __iter__(self):
         return iter([('venue_name', self.venue_name),
                      ('status', self.status),
                      ('cam_url', self.cam_url),
                      ('last_updated', self.last_updated),
-                     ('sync_time', self.sync_time),
-                     ('regularly_updating', self.regularly_updating)
+                     ('sync_time', self.sync_time)
                      ])
-
-
-def regularly_updating_check(last_updated):
-    today = datetime.now()
-    return ((today - last_updated).total_seconds()/60) < 10

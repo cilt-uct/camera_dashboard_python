@@ -1,7 +1,7 @@
 import os
 from celery import shared_task
 from .models import Venues
-from .utils import check_and_stop_running_processes, check_if_folders_exist, contains_unusual_characters
+from .utils import *
 from config import DIRECTORY
 from celery.utils.log import get_task_logger
 
@@ -17,7 +17,7 @@ def get_feeds():
         venue_name = venue["venue_name"]
 
         if contains_unusual_characters(venue_name):
-            logger.warn("Could not create the venue {} as it contained special characters".format(agent["name"]))
+            logger.warn("Could not create the venue {} as it contained special characters".format(venue_name))
             continue
 
         if check_if_folders_exist(venue_name):
@@ -29,12 +29,16 @@ def get_feeds():
                           + venue_name + "/" + venue_name + ".jpeg && rm -f " + venue_name + "*")
 
             logger.info("Starting the fetch of lecture recording captures.")
-            run_command.delay(command)
+            run_command.delay(command, venue_name)
         else:
             logger.warn("Unable to run any commands for {}".format(venue_name))
 
 
 @shared_task
-def run_command(command):
+def run_command(command, venue_name):
     logger.info("RUNNING, {}".format(command))
     os.system(command)
+
+    if check_if_files_exist(venue_name):
+        logger.info("Updating timestamp for: {}.".format(venue_name))
+        Venues.objects(venue_name=venue_name).update_one(last_updated=get_timestamp(venue_name))

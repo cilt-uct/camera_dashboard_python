@@ -8,13 +8,13 @@
     <div class="btn-group">
         <a class="{{all_active}}" href="{% url 'dashboard' %}">Total Venues <span>{{ venue_length }}</span></a>
         <a class="{{online_active}}" href="{% url 'online' %}">Online Venues <span>{{ venue_online }}</span></a>
-        <a class="{{offline_active}}" href="{% url 'offline' %}">Offline Venues <span>{{ venue_offline }}</span></a>
+        <a class="{{offline_active}} {{offline}}" href="{% url 'offline' %}">Offline Venues <span>{{ venue_offline }}</span></a>
     </div>
     <div>
         {% for venue in venues %}
-            <div class="gallery">
-                <a id="{{venue.venue_name}}" href="#" onClick="popup(this.id)">
-                    <img class="{{venue.outOfDate}}" src="{% static '' %}feeds/{{venue.venue_name}}/{{venue.venue_name}}.jpeg" alt="Capture currently available" onerror="this.onerror=null;this.src='/static/placeholder/unavailable.jpg';">
+            <div class="gallery {{venue.outOfDate}}">
+                <a id="{{venue.venue_name}}" onClick="popup(this.id)">
+                    <img src="{% static '' %}feeds/{{venue.venue_name}}/{{venue.venue_name}}.jpeg" alt="Capture currently available" onerror="this.onerror=null;this.src='/static/placeholder/unavailable.jpg';">
                 </a>
                 <div class="desc">{{venue.venue_name}}</div>
             </div>
@@ -23,9 +23,11 @@
 
     <div id="popup">
         <div class="popup-content">
+            <div class="close-btn-wrapper">
+                <button class="close-btn2" onclick="closePopup()">X</button>
+            </div>
             <h1 id="heading"></h1>
             <img id="popUpImage" alt="Capture currently available" onerror="this.onerror=null;this.src='/static/placeholder/unavailable.jpg';">
-            <p><button onclick="closePopup()">Close</button></p>
         </div>
     </div>
 
@@ -39,8 +41,15 @@
         }
 
         function closePopup() {
-            console.log("close");
             popup1.style.display = "none";
         }
+    </script>
+
+    <script>
+        $(document).keydown(function(e) {
+            if (e.keyCode == 27) {
+                popup1.style.display = "none";
+            }
+        });
     </script>
 {% endblock content %}

@@ -1,5 +1,6 @@
 import json
-from jobs.models import Venues, VenueDict, regularly_updating_check
+import pytz
+from jobs.models import Venues, VenueDict
 from datetime import datetime
 from jobs.utils import check_if_files_exist, get_timestamp
 
@@ -40,10 +41,16 @@ def dashboard_data(selected_filter):
         "all_active": all_active,
         "online_active": online_active,
         "offline_active": offline_active,
+        "offline": "offline" if len(offline_venues) > 0 else "",
         "venue_length": len(valid_venues),
         "venue_online": len(online_venues),
         "venue_offline": len(offline_venues),
     }
+
+
+def regularly_updating_check(last_updated):
+    today = datetime.now()
+    return ((today - last_updated).total_seconds()/60) < 10
 
 
 def venues_data():
@@ -52,12 +59,13 @@ def venues_data():
     all_venues_dict = []
 
     for venue in valid_venues:
+        venue_name = venue['venue_name']
         new_venue = dict(VenueDict(
-            venue['venue_name'],
+            venue_name,
             venue['status'],
             venue['cam_url'],
-            venue['last_updated'],
-            venue['sync_time']))
+            localise(venue['last_updated']),
+            localise(venue['sync_time'])))
         all_venues_dict.append(new_venue)
 
     return {
@@ -67,6 +75,11 @@ def venues_data():
     }
 
 
+def localise(date):
+    localised_time = date.astimezone(pytz.timezone('Africa/Johannesburg'))
+    return localised_time.replace(tzinfo=None)
+
+
 def ca_json():
     all_venues = Venues.objects.all()
     json_data = json.loads(all_venues.to_json())
@@ -74,10 +87,11 @@ def ca_json():
     transformed_data = []
 
     for data in valid_venues:
-        data['ca_name'] = data['venue_name']
+        venue_name = data['venue_name']
+        data['ca_name'] = venue_name
         data['time_since_last_update'] = int(datetime.now().timestamp() - (data['last_updated']['$date'] / 1000))
         del data['_id']
-        del data['venue_name']
+        del venue_name
         del data['cam_url']
         del data['status']
         del data['last_updated']
