@@ -5,14 +5,12 @@ from config import DIRECTORY
 from celery.utils.log import get_task_logger
 from .models import Venues
 
-
 logger = get_task_logger(__name__)
 
 
 def check_if_files_exist(venue_name):
     file_path = get_file_path(venue_name)
     if os.path.isfile(file_path):
-        logger.info("Updating timestamp for: {}.".format(file_path))
         return True
 
     return False
@@ -33,8 +31,11 @@ def check_if_folders_exist(venue_name):
 
 
 def get_timestamp(venue_name):
-    file_path = get_file_path(venue_name)
-    return datetime.fromtimestamp(os.path.getmtime(file_path))
+    try:
+        file_path = get_file_path(venue_name)
+        return datetime.fromtimestamp(os.path.getmtime(file_path))
+    except:
+        logger.warn("Failed to fetch timestamp. File might not be available.")
 
 
 def files_and_folders_exist(venue_name):

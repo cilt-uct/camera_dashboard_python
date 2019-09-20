@@ -1,7 +1,7 @@
 import json
 from jobs.models import Venues, VenueDict, regularly_updating_check
 from datetime import datetime
-from jobs.utils import check_if_files_exist, get_timestamp, files_and_folders_exist
+from jobs.utils import check_if_files_exist, get_timestamp
 
 
 def dashboard_data(selected_filter):
@@ -58,7 +58,7 @@ def venues_data():
             venue_name,
             venue['status'],
             venue['cam_url'],
-            get_timestamp(venue_name) if files_and_folders_exist(venue_name) else venue['last_updated'],
+            venue['last_updated'],
             venue['sync_time']))
         all_venues_dict.append(new_venue)
 
@@ -78,10 +78,7 @@ def ca_json():
     for data in valid_venues:
         venue_name = data['venue_name']
         data['ca_name'] = venue_name
-        data['time_since_last_update'] = \
-            int(datetime.now().timestamp() - (
-                datetime.timestamp(get_timestamp(venue_name)) if files_and_folders_exist(venue_name) else (
-                            data['last_updated']['$date'] / 1000)))
+        data['time_since_last_update'] = int(datetime.now().timestamp() - (data['last_updated']['$date'] / 1000))
         del data['_id']
         del venue_name
         del data['cam_url']
