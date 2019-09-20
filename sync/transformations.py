@@ -1,5 +1,6 @@
 import json
-from jobs.models import Venues, VenueDict, regularly_updating_check
+import pytz
+from jobs.models import Venues, VenueDict
 from datetime import datetime
 from jobs.utils import check_if_files_exist, get_timestamp
 
@@ -47,6 +48,11 @@ def dashboard_data(selected_filter):
     }
 
 
+def regularly_updating_check(last_updated):
+    today = datetime.now()
+    return ((today - last_updated).total_seconds()/60) < 10
+
+
 def venues_data():
     all_venues = Venues.objects.all()
     valid_venues = [a for a in all_venues if a["cam_url"]]
@@ -58,8 +64,8 @@ def venues_data():
             venue_name,
             venue['status'],
             venue['cam_url'],
-            venue['last_updated'],
-            venue['sync_time']))
+            localise(venue['last_updated']),
+            localise(venue['sync_time'])))
         all_venues_dict.append(new_venue)
 
     return {
@@ -67,6 +73,11 @@ def venues_data():
         "venues": all_venues_dict,
         "venue_active": "active",
     }
+
+
+def localise(date):
+    localised_time = date.astimezone(pytz.timezone('Africa/Johannesburg'))
+    return localised_time.replace(tzinfo=None)
 
 
 def ca_json():
