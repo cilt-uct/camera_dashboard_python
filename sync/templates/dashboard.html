@@ -41,8 +41,15 @@
         }
 
         function closePopup() {
-            console.log("close");
             popup1.style.display = "none";
         }
+    </script>
+
+    <script>
+        $(document).keydown(function(e) {
+            if (e.keyCode == 27) {
+                popup1.style.display = "none";
+            }
+        });
     </script>
 {% endblock content %}
