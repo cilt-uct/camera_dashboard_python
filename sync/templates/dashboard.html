@@ -23,9 +23,11 @@
 
     <div id="popup">
         <div class="popup-content">
+            <div class="close-btn-wrapper">
+                <button class="close-btn2" onclick="closePopup()">X</button>
+            </div>
             <h1 id="heading"></h1>
             <img id="popUpImage" alt="Capture currently available" onerror="this.onerror=null;this.src='/static/placeholder/unavailable.jpg';">
-            <p><button onclick="closePopup()">Close</button></p>
         </div>
     </div>
 
