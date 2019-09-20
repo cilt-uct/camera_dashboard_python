@@ -15,11 +15,10 @@ logger = get_task_logger(__name__)
 @shared_task
 def do_sync():
     url = CAPTURE_AGENT_URL
-    params = {"X-Requested-Auth": "Digest"}
     agents = {}
 
     try:
-        response = requests.get(url, headers=params)
+        response = requests.get(url)
         data = json.loads(response.text)
         agents = data["agents"]["agent"]
         logger.info("Number of agents {}.".format(len(agents)))
