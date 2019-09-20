@@ -58,11 +58,13 @@ div.gallery {
     border: 1px solid #ccc;
     float: left;
     width: 22%;
+    cursor: pointer;
     overflow: hidden;
 }
 
 div.gallery:hover {
     border: 1px solid #777;
+    cursor: pointer;
 }
 
 div.gallery img {
@@ -170,11 +172,6 @@ th {
 }
 
 /* greyed out image */
-.greyed-out-img img {
-  -webkit-filter: grayscale(100%);
-  filter: grayscale(100%);
-}
-
 .greyed-out-img div {
   color: red;
 }
