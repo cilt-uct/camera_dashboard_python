@@ -20,14 +20,18 @@ def check_if_folders_exist(venue_name):
     folder_path = DIRECTORY + venue_name + "/"
 
     try:
-        if not os.path.isdir(folder_path):
-            logger.info("Creating folder: {}.".format(folder_path))
-            os.makedirs(folder_path, exist_ok=True)
+        make_directory(folder_path)
     except Exception as e:
         logger.error("Could not create folder: {}.".format(str(e)))
         return False
 
     return True
+
+
+def make_directory(folder_path):
+    if not os.path.isdir(folder_path):
+        logger.info("Creating folder: {}.".format(folder_path))
+        os.makedirs(folder_path, exist_ok=True)
 
 
 def get_timestamp(venue_name):

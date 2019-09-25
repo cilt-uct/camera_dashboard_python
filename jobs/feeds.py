@@ -20,9 +20,11 @@ def get_feeds():
             logger.warn("Could not create the venue {} as it contained special characters".format(venue_name))
             continue
 
+        make_directory("tmp/")
+
         if check_if_folders_exist(venue_name):
-            command = str("openRTSP -F " + venue_name + " -d 10 -b 400000 " + venue["cam_url"]
-                          + " && ffmpeg -y -i " + venue_name + "video-H264-1 -r 1 -vframes 1"
+            command = str("openRTSP -F " + "tmp/" + venue_name + " -d 10 -b 400000 " + venue["cam_url"]
+                          + " && ffmpeg -y -i " + "tmp/" + venue_name + "video-H264-1 -r 1 -vframes 1"
                           + " -f image2 " + DIRECTORY + venue_name + "/" + venue_name
                           + "_big.jpeg && ffmpeg -y -i " + DIRECTORY + venue_name
                           + "/" + venue_name + "_big.jpeg -s 320x180 -f image2 " + DIRECTORY

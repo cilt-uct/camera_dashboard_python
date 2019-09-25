@@ -30,3 +30,6 @@ config.py
 data
 js/
 admin/
+.config.py.swp
+*MPEG4*
+*H264*
