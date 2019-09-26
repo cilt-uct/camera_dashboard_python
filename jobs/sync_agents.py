@@ -14,13 +14,16 @@ logger = get_task_logger(__name__)
 
 @shared_task
 def do_sync():
-    auth = HTTPDigestAuth(DIGEST_AUTH["username"], DIGEST_AUTH["password"])
     url = CAPTURE_AGENT_URL
-    params = {"X-Requested-Auth": "Digest"}
     agents = {}
 
     try:
-        response = requests.get(url, auth=auth, headers=params)
+        if DIGEST_AUTH["username"] and DIGEST_AUTH["password"]:
+            params = {"X-Requested-Auth": "Digest"}
+            auth = HTTPDigestAuth(DIGEST_AUTH["username"], DIGEST_AUTH["password"])
+            response = requests.get(url, auth=auth, headers=params)
+        else:
+            response = requests.get(url)
         data = json.loads(response.text)
         agents = data["agents"]["agent"]
         logger.info("Number of agents {}.".format(len(agents)))

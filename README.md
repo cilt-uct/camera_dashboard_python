@@ -7,8 +7,8 @@ in the root directory. It should look as follows:
     DIRECTORY = "sync/static/feeds/"
 
     DIGEST_AUTH = {
-        "username": "admin",
-        "password": "opencast"
+        "username": "",
+        "password": ""
     }
     
     CAPTURE_AGENT_URL = "https://stable.opencast.org/capture-admin/agents.json"
