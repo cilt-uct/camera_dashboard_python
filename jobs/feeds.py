@@ -28,7 +28,7 @@ def get_feeds():
                           + " -f image2 " + DIRECTORY + venue_name + "/" + venue_name
                           + "_big.jpeg && ffmpeg -y -i " + DIRECTORY + venue_name
                           + "/" + venue_name + "_big.jpeg -s 320x180 -f image2 " + DIRECTORY
-                          + venue_name + "/" + venue_name + ".jpeg && rm -f " + venue_name + "*")
+                          + venue_name + "/" + venue_name + ".jpeg && rm -f " + "tmp/" + venue_name + "*")
 
             logger.info("Starting the fetch of lecture recording captures.")
             run_command.delay(command, venue_name)
