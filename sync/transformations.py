@@ -3,13 +3,14 @@ import pytz
 from jobs.models import Venues, VenueDict
 from datetime import datetime
 from jobs.utils import check_if_files_exist, get_timestamp
+from config import PRIVATE_VENUES
 
 
 def dashboard_data(selected_filter):
     online_active = offline_active = ""
     all_venues = Venues.objects.all()
     json_data = json.loads(all_venues.to_json())
-    valid_venues = [a for a in json_data if a["cam_url"]]
+    valid_venues = [a for a in json_data if a["cam_url"] and a["venue_name"] not in PRIVATE_VENUES]
     online_venues = []
     offline_venues = []
     venues = valid_venues

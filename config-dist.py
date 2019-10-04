@@ -1,3 +1,6 @@
+# list of venues that should not be displayed
+PRIVATE_VENUES = []
+
 # Do not change this directory path
 DIRECTORY = "sync/static/feeds/"
 
