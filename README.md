@@ -3,6 +3,9 @@
 In order to run camera dashboard you will need to first create a config file (config.py)
 in the root directory. It should look as follows:
 
+    # list of venues that should not be displayed
+    PRIVATE_VENUES = []
+
     //do not change directory
     DIRECTORY = "sync/static/feeds/"
 

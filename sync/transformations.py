@@ -3,8 +3,7 @@ import pytz
 from jobs.models import Venues, VenueDict
 from datetime import datetime
 from jobs.utils import check_if_files_exist, get_timestamp
-
-PRIVATE_VENUES = ["clinskills1", "clinskills2", "clinskills3", "clinskills4"]
+from config import PRIVATE_VENUES
 
 
 def dashboard_data(selected_filter):
