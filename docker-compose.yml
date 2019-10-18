@@ -36,7 +36,7 @@ services:
       - "cam_dash"
     environment:
       - LOG_STREAM=Celery
-    command: celery -A camera_dashboard worker -l INFO -c 200
+    command: celery -A camera_dashboard worker -l info -c 200
 
   celery_beat:
     restart: always

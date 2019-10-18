@@ -23,7 +23,7 @@ def get_feeds():
         make_directory("tmp/")
 
         if check_if_folders_exist(venue_name):
-            command = str("openRTSP -F " + "tmp/" + venue_name + " -d 10 -b 400000 " + venue["cam_url"]
+            command = str("openRTSP -F " + "tmp/" + venue_name + " -d 10 -b 400000 " + venue["cam_url"] + ">/dev/null 2>&1"
                           + " && ffmpeg -y -i " + "tmp/" + venue_name + "video-H264-1 -r 1 -vframes 1"
                           + " -f image2 " + DIRECTORY + venue_name + "/" + venue_name
                           + "_big.jpeg && ffmpeg -y -i " + DIRECTORY + venue_name
@@ -32,13 +32,14 @@ def get_feeds():
 
             logger.info("Starting the fetch of lecture recording captures.")
             run_command.delay(command, venue_name)
+            break
         else:
             logger.warn("Unable to run any commands for {}".format(venue_name))
 
 
 @shared_task
 def run_command(command, venue_name):
-    logger.info("RUNNING, {}".format(command))
+    logger.info("Running command for {}".format(venue_name))
     os.system(command)
 
     if check_if_files_exist(venue_name):
