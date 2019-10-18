@@ -32,7 +32,6 @@ def get_feeds():
 
             logger.info("Starting the fetch of lecture recording captures.")
             run_command.delay(command, venue_name)
-            break
         else:
             logger.warn("Unable to run any commands for {}".format(venue_name))
 
