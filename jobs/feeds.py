@@ -26,9 +26,9 @@ def get_feeds():
             command = str("openRTSP -F " + "tmp/" + venue_name + " -d 10 -b 400000 " + venue["cam_url"] + ">/dev/null 2>&1"
                           + " && ffmpeg -y -i " + "tmp/" + venue_name + "video-H264-1 -r 1 -vframes 1"
                           + " -f image2 " + DIRECTORY + venue_name + "/" + venue_name
-                          + "_big.jpeg && ffmpeg -y -i " + DIRECTORY + venue_name
+                          + "_big.jpeg >/dev/null 2>&1 && ffmpeg -y -i " + DIRECTORY + venue_name
                           + "/" + venue_name + "_big.jpeg -s 320x180 -f image2 " + DIRECTORY
-                          + venue_name + "/" + venue_name + ".jpeg && rm -f " + "tmp/" + venue_name + "*")
+                          + venue_name + "/" + venue_name + ".jpeg && rm -f " + "tmp/" + venue_name + "* >/dev/null 2>&1")
 
             logger.info("Starting the fetch of lecture recording captures.")
             run_command.delay(command, venue_name)
