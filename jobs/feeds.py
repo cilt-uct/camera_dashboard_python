@@ -23,7 +23,7 @@ def get_feeds():
         make_directory("tmp/")
 
         if check_if_folders_exist(venue_name):
-            command = str("openRTSP -F " + "tmp/" + venue_name + " -d 10 -b 400000 " + venue["cam_url"] + ">/dev/null 2>&1"
+            command = str("openRTSP -F " + "tmp/" + venue_name + " -d 10 -b 400000 " + venue["cam_url"] + " >/dev/null 2>&1"
                           + " && ffmpeg -hide_banner -y -i " + "tmp/" + venue_name + "video-H264-1 -r 1 -vframes 1"
                           + " -f image2 " + DIRECTORY + venue_name + "/" + venue_name
                           + "_big.jpeg >/dev/null 2>&1 && ffmpeg -hide_banner -y -i " + DIRECTORY + venue_name
