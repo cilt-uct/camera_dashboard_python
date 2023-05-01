@@ -30,7 +30,7 @@ def get_feeds():
                           + "/" + venue_name + "_big.jpeg -s 320x180 -f image2 " + DIRECTORY
                           + venue_name + "/" + venue_name + ".jpeg && rm -f " + "tmp/" + venue_name + "* >/dev/null 2>&1")
 
-            logger.info("Starting the fetch of lecture recording captures.")
+            logger.info(f'Starting the fetch of lecture recording captures for {venue_name}.')
             run_command.delay(command, venue_name)
         else:
             logger.warn("Unable to run any commands for {}".format(venue_name))
