@@ -11,6 +11,7 @@ RUN pip3 install pymongo==3.11.2
 RUN apt-get install -y --no-install-recommends apt-utils
 RUN apt -y install ffmpeg
 RUN apt-get install psmisc
+RUN apt-get -y install livemedia-utils
 
 ADD ./ /camera_dashboard
 WORKDIR /camera_dashboard
