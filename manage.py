@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
 import os
+import django
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'camera_dashboard.settings')
+django.setup()
+
 import sys
 
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'camera_dashboard.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

@@ -11,7 +11,7 @@ services:
 
   db:
     restart: always
-    image: mongo:4
+    image: mongo:5
     volumes:
       - ./data/nosql:/data/db
 
@@ -47,4 +47,4 @@ services:
       - "celery"
     environment:
       - LOG_STREAM=CeleryBeat
-    command: celery beat --pidfile= -A camera_dashboard -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    command: celery -A camera_dashboard beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler

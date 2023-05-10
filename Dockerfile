@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.9
 
 RUN apt-get -y update
 RUN apt-get -y upgrade
@@ -6,9 +6,16 @@ RUN apt-get -y upgrade
 COPY requirements.txt /
 RUN pip3 install -r /requirements.txt
 RUN pip3 uninstall -y pymongo
-RUN pip3 install pymongo
-#RUN apt-get update && apt-get install -y --no-install-recommends apt-utils && apt-get -y install livemedia-utils && apt -y install ffmpeg && apt-get install psmisc
-RUN apt-get update && apt-get install -y --no-install-recommends apt-utils && apt -y install ffmpeg && apt-get install psmisc
+RUN pip3 install pymongo==3.11.2
+
+RUN apt-get install -y --no-install-recommends apt-utils
+RUN apt -y install ffmpeg
+RUN apt-get install psmisc
+
+RUN echo "deb http://www.deb-multimedia.org buster main" >> /etc/apt/sources.list
+RUN apt-get update -oAcquire::AllowInsecureRepositories=true
+RUN apt-get install -y --allow-unauthenticated deb-multimedia-keyring
+RUN apt-get install -y --allow-unauthenticated livemedia-utils
 
 ADD ./ /camera_dashboard
 WORKDIR /camera_dashboard
