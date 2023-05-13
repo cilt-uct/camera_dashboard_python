@@ -5,9 +5,8 @@ from celery.utils.log import get_task_logger
 from requests.auth import HTTPDigestAuth
 
 from config import DIGEST_AUTH, CAPTURE_AGENT_URL
-from .models import Venues
-from .utils import delete_venues, contains_unusual_characters
-from .transformations import create_venue
+from .utils import contains_unusual_characters
+from .data_access_layer import create_venue, delete_venues
 
 logger = get_task_logger(__name__)
 
@@ -26,7 +25,7 @@ def do_sync():
             response = requests.get(url)
         data = json.loads(response.text)
         agents = data["agents"]["agent"]
-        logger.info("Number of agents {}.".format(len(agents)))
+        logger.info("Number of agents fetched from media JSON: {}.".format(len(agents)))
     except requests.HTTPError as e:
         status_code = e.response.status_code
         logger.error("Failed to fetch capture agents".format(status_code))
@@ -44,10 +43,7 @@ def do_sync():
                 logger.warn("Could not create the venue {} as it contained special characters".format(venue_name))
                 continue
 
-            venue = create_venue(agent)
-
-            Venues.objects.create(**venue)
-
+            create_venue(agent)
             number_of_venues += 1
 
         logger.info("{} venues have been inserted into the database.".format(number_of_venues))

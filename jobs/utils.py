@@ -3,7 +3,6 @@ import re
 from datetime import datetime
 from config import DIRECTORY
 from celery.utils.log import get_task_logger
-from .models import Venues
 
 logger = get_task_logger(__name__)
 
@@ -54,20 +53,25 @@ def get_file_path(venue_name):
     return folder_path + venue_name + ".jpeg"
 
 
-def delete_venues():
-    all_venues = Venues.objects.all()
-    deleted = all_venues.delete()
-    logger.info("Number of deleted venues: {}".format(str(deleted)))
-
-
 def get_camera_url(items):
     cam_url = ""
 
+    if isinstance(items, dict):
+        if "rtsp" in items["value"]:
+            cam_url = items["value"]
+            cam_url = cam_url.replace("rtspt", "rtsp")
+
+        return cam_url
+
     for item in items:
-        if item:
-            if "rtsp" in item["value"]:
-                cam_url = item["value"]
-                cam_url = cam_url.replace("rtspt", "rtsp")
+        try:
+            if item:
+                if "rtsp" in item["value"]:
+                    cam_url = item["value"]
+                    cam_url = cam_url.replace("rtspt", "rtsp")
+        except Exception as e:
+            logger.error(f'Something went wrong while attempting to get the url in {str(items)}, error: {str(e)}')
+            return None
 
     return cam_url
 

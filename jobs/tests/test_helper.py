@@ -20,3 +20,34 @@ items_no_url = [
         "value": "test"
     }
 ]
+
+venue_with_items = {
+    "name": "hahn",
+    "state": "offline",
+    "url": "100.100.100.100",
+    "time-since-last-update": 28017980605,
+    "capabilities": {
+        "item": [
+            {
+                "key": "capture.device.presenter.outputfile",
+                "value": "presenter.mkv"
+            }, {
+                "key": "capture.device.presenter.src",
+                "value": "rtsp://hahn.com/axis-media/media.amp"
+            }
+        ]
+    }
+}
+
+venue_with_single_item = {
+    "name": "hani",
+    "state": "idle",
+    "url": "100.100.100.100",
+    "time-since-last-update": 8773,
+    "capabilities": {
+        "item": {
+            "key": "capture.device.names",
+            "value": "defaults"
+        }
+    }
+}

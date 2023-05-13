@@ -3,7 +3,7 @@ from ..utils import contains_unusual_characters, get_camera_url
 from .test_helper import *
 
 
-class Test(unittest.TestCase):
+class TestUtils(unittest.TestCase):
 
     def test_contains_unusual_characters_passing(self):
         self.assertTrue(contains_unusual_characters(venues[0]))
