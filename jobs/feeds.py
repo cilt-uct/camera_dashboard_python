@@ -11,6 +11,7 @@ logger = get_task_logger(__name__)
 @shared_task
 def get_feeds():
     all_venues = Venues.objects.all()
+    logger.info(f'fetched {all_venues.count()} venues from the database')
     check_and_stop_running_processes()
 
     for venue in all_venues:
