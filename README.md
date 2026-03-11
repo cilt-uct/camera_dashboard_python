@@ -1,4 +1,6 @@
-# Camera Dashboard
+# Camera Dashboard (DEPRECATED)
+
+This is no longer supported, please consider using the `cilt-uct/docker-camera-dashboard` instead.
 
 The Camera Dashboard displays a view of all the cameras connected to Capture Agents (CA) which in turn are connected to Opencast. The dashboard shows the current status of the CA's and also a snapshot of the camera view, which is updated every 5 minutes.
 
